@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
+import {Provider} from "react-redux";
+import {createStore, applyMiddleware} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import reducers from "./reducers";
 import sagas from "./sagas";
 
-import Main from "./components/Main";
+import Wrapper from "./components/Wrapper";
+import PokemonsList from "./containers/PokemonsList";
 
 import style from "../style/style.scss";
 
@@ -27,9 +27,9 @@ sagaMiddleware.run(sagas);
 // render the application
 ReactDOM.render(
     <Provider store={store}>
-        <MuiThemeProvider>
-            <Main />
-        </MuiThemeProvider>
+        <Wrapper>
+            <PokemonsList />
+        </Wrapper>
     </Provider>,
     document.getElementById("root")
 );

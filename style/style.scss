@@ -1,4 +1,51 @@
-.leaflet-container {
-  height: 400px;
-  width: 400px;
+.container {
+  margin: 0 auto;
+  width: 1200px;
+}
+
+.badge {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.progress {
+  border: 1px solid #000;
+  height: 5px;
+}
+
+.progress-bar-1 {
+  background-color: #ffff66 !important;
+}
+
+.progress-bar-2 {
+  background-color: #663333 !important;
+}
+
+.progress-bar-3 {
+  background-color: #ff0033 !important;
+}
+
+.progress-bar-4 {
+  background-color: #cc33ff !important;
+}
+
+.progress-bar-5 {
+  background-color: #ff9933 !important;
+}
+
+.progress-bar-6 {
+  background-color: #00cc33 !important;
+}
+
+
+.badge {
+  background-color: #ccc;
+}
+
+.badge-grass {
+  background-color: #060;
+}
+
+.badge-poison {
+  background-color: #3f0;
 }

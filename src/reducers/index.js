@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
-import employees from "./EmployeeReducer";
+import pokemons from "./PokemonsReducer";
 
 export default combineReducers({
-    employees
+    pokemons
 });
