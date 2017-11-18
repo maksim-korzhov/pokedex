@@ -6,12 +6,10 @@ import {
     FETCH_POKEMONS_SUCCEEDED,
     FETCH_POKEMONS_FAILED,
     FETCH_POKEMON,
-    FETCH_POKEMON_SUCCEEDED,
     FETCH_POKEMON_FAILED
 } from "../actions/types";
 
 const ROOT_URL = "https://pokeapi.co/api/v2";
-const limit = 3;
 
 /*
     get pokemon by id
@@ -21,7 +19,6 @@ export function * fetchPokemonByIdAsync(id) {
     try {
         const result = yield call(axios.get, `${ROOT_URL}/pokemon/${id}/`);
         return result;
-        //yield put({ type: FETCH_POKEMON_SUCCEEDED, payload: result.data });
     } catch (error) {
         yield put({ type: FETCH_POKEMON_FAILED, payload: error });
     }
@@ -39,7 +36,7 @@ function * watchFetchPokemonById() {
 */
 export function * fetchPokemonsAsync() {
     try {
-        const request = yield call(axios.get, `${ROOT_URL}/pokemon/`, { params: { limit: 9 } });
+        const request = yield call(axios.get, `${ROOT_URL}/pokemon/`, { params: { limit: 40 } });
 
         const allPokemons = [];
         yield* request.data.results.map( function* (pokemonData) {

@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
                     if(types.indexOf(name) === -1) {
                         types.push(name);
                     }
-                })
+                });
             });
 
             return {
@@ -38,7 +38,6 @@ export default function (state = initialState, action) {
                 isLoaded: true,
                 typesList: [ ...state.typesList, ...types ]
             };
-            break;
         case FIND_POKEMON_BY_NAME:
             const searchList = state.pokemonsList;
             const pokemons = searchList.filter( item => {
@@ -53,7 +52,6 @@ export default function (state = initialState, action) {
                 isSearching,
                 currentPage: 1
             };
-            break;
         case FETCH_PAGE:
             return {
                 ...state,

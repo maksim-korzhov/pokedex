@@ -11,10 +11,10 @@ class PokemonsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
+            isLoading: true,
             currentPage: 1,
             totalItems: 1,
-            itemsPerPage: 3,
+            itemsPerPage: 5,
             itemsOnPage: []
         };
     }
@@ -142,7 +142,7 @@ class PokemonsList extends Component {
                 />
 
                 <div className={`preloader ${ this.state.isLoading ? "" : "hide"}`}>
-                    <div className="preloaderText">Loading...</div>
+                    <div className="preloaderText"><span className="preloaderPicture" /> Loading...</div>
                 </div>
             </main>
         );
