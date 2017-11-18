@@ -39,7 +39,7 @@ function * watchFetchPokemonById() {
 */
 export function * fetchPokemonsAsync() {
     try {
-        const request = yield call(axios.get, `${ROOT_URL}/pokemon/`, { params: { limit: 10 } });
+        const request = yield call(axios.get, `${ROOT_URL}/pokemon/`, { params: { limit: 9 } });
 
         console.log(request.data);
 

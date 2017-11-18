@@ -14,6 +14,14 @@ class Pagination extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if( nextProps.currentPage !== this.state.currentPage ) {
+            this.setState({
+                currentPage: nextProps.currentPage
+            });
+        }
+    }
+
     _setCurrentPage(number) {
         const { onPageClickHandler } = this.props;
 

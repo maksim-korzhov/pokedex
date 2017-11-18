@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {fetchPokemons} from "../actions";
+import { fetchPokemons, findPokemonByName, fetchByPage } from "../actions";
 
 import Pagination from "../components/Pagination";
+import SearchBar from "./SearchBar";
 
 class PokemonsList extends Component {
     constructor(props) {
@@ -24,13 +25,13 @@ class PokemonsList extends Component {
 
     componentWillReceiveProps (nextProps) {
         if(nextProps.pokemonsList) {
+            console.log(nextProps.currentPage);
             this.setState({
                 isLoading: false,
                 totalItems: nextProps.pokemonsList.length,
-                itemsOnPage: this._setItemsOnPage(nextProps.pokemonsList)
+                itemsOnPage: this._setItemsOnPage(nextProps.pokemonsList, nextProps.currentPage),
+                currentPage: nextProps.currentPage
             });
-
-
         }
     }
 
@@ -44,7 +45,7 @@ class PokemonsList extends Component {
         return itemsOnPage;
     }
 
-    _setActivePage(pageNumber) {
+    /*_setActivePage(pageNumber) {
         this.setState({
             currentPage: pageNumber
         });
@@ -56,12 +57,21 @@ class PokemonsList extends Component {
         this.setState({
             itemsOnPage: this._setItemsOnPage(this.props.pokemonsList, pageNumber)
         });
-    }
+    }*/
 
     _renderRows(items) {
-        if (items.length === 0) return <tr>
-            <td colSpan="5">Loading...</td>
-        </tr>;
+        if (items.length === 0) {
+            if( this.props.isLoaded ) {
+                return <tr>
+                    <td colSpan="5">Nothing to show</td>
+                </tr>;
+            }
+
+            return <tr>
+                <td colSpan="5">Loading...</td>
+            </tr>;
+        }
+
 
         return items.map(item => {
             const { data } = item;
@@ -101,12 +111,18 @@ class PokemonsList extends Component {
         });
     }
 
+    _onSearchHandle(name) {
+        this.props.findPokemonByName(name);
+    }
+
     render() {
         //const ModalForm = ModalWrapper(AddDepartment);
 
         return (
             <main className="col-sm-12">
                 <h1>Pokemons</h1>
+
+                <SearchBar searchHandle={this._onSearchHandle.bind(this)}/>
 
                 <div className="table-responsive table-bordered">
                     <table className="table table-striped">
@@ -120,7 +136,6 @@ class PokemonsList extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                            {/*this._renderRows(this.props.pokemonsList)*/}
                             {this._renderRows(this.state.itemsOnPage)}
                         </tbody>
                     </table>
@@ -130,7 +145,8 @@ class PokemonsList extends Component {
                     total={this.state.totalItems}
                     perPage={this.state.itemsPerPage}
                     currentPage={this.state.currentPage}
-                    onPageClickHandler={this._goToPage.bind(this)}
+                    //onPageClickHandler={this._goToPage.bind(this)}
+                    onPageClickHandler={this.props.fetchByPage}
                 />
 
                 <div className={`preloader ${ this.state.isLoading ? "" : "hide"}`}>
@@ -141,14 +157,17 @@ class PokemonsList extends Component {
     }
 }
 
-function mapStateToProps({pokemons: {pokemonsList}}) {
+function mapStateToProps({pokemons}) {
+    const pokemonsList = pokemons.isSearching ? pokemons.searchList : pokemons.pokemonsList;
     return {
-        pokemonsList
+        pokemonsList,
+        isLoaded: pokemons.isLoaded,
+        currentPage: pokemons.currentPage
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({fetchPokemons}, dispatch);
+    return bindActionCreators({ fetchPokemons, findPokemonByName, fetchByPage }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonsList);
