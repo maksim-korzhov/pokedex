@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import { fetchPokemons, findPokemonByName, fetchByPage, fetchAllTypes } from "../actions";
+import { fetchPokemons, findPokemonByName, findPokemonByTypes, fetchByPage, fetchAllTypes } from "../actions";
 
 import Pagination from "../components/Pagination";
-import SearchBar from "./SearchBar";
+import SearchBar from "../components/SearchBar";
 
 class PokemonsList extends Component {
     constructor(props) {
@@ -100,16 +100,22 @@ class PokemonsList extends Component {
         this.props.findPokemonByName(name);
     }
 
+    _onSearchTypesHandle(types) {
+        this.props.findPokemonByTypes(types);
+    }
+
     render() {
         //const ModalForm = ModalWrapper(AddDepartment);
-
-        console.log(this.props.typesList);
 
         return (
             <main className="col-sm-12">
                 <h1>Pokemons</h1>
 
-                <SearchBar searchHandle={this._onSearchHandle.bind(this)}/>
+                <SearchBar
+                    filterTypesHandle={this._onSearchTypesHandle.bind(this)}
+                    searchHandle={this._onSearchHandle.bind(this)}
+                    types={this.props.typesList}
+                />
 
                 <div className="table-responsive table-bordered">
                     <table className="table table-striped">
@@ -144,7 +150,7 @@ class PokemonsList extends Component {
 }
 
 function mapStateToProps({pokemons}) {
-    const pokemonsList = pokemons.isSearching ? pokemons.searchList : pokemons.pokemonsList;
+    const pokemonsList = (pokemons.isSearching || pokemons.isSearchingByTypes) ? pokemons.searchList : pokemons.pokemonsList;
     return {
         pokemonsList,
         isLoaded: pokemons.isLoaded,
@@ -154,7 +160,7 @@ function mapStateToProps({pokemons}) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchPokemons, findPokemonByName, fetchByPage, fetchAllTypes }, dispatch);
+    return bindActionCreators({ fetchPokemons, findPokemonByName, findPokemonByTypes, fetchByPage, fetchAllTypes }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonsList);

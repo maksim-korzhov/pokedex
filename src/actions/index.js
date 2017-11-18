@@ -3,7 +3,7 @@ import {
     FETCH_POKEMONS,
     FIND_POKEMON_BY_NAME,
     FETCH_PAGE,
-    FETCH_ALL_TYPES
+    FIND_POKEMON_BY_TYPES
 } from "./types";
 
 export function fetchPokemons() {
@@ -36,5 +36,12 @@ export function fetchByPage(pageNumber) {
 export function fetchAllTypes() {
     return {
         type: FETCH_ALL_TYPES
+    };
+}
+
+export function findPokemonByTypes(types) {
+    return {
+        type: FIND_POKEMON_BY_TYPES,
+        payload: types
     };
 }

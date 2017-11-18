@@ -3,13 +3,14 @@ import {
     FETCH_POKEMON_SUCCEEDED,
     FIND_POKEMON_BY_NAME,
     FETCH_PAGE,
-    FETCH_ALL_TYPES
+    FIND_POKEMON_BY_TYPES
 } from "../actions/types";
 
 export const initialState = {
     pokemonsList: [],
     searchList: [],
     isSearching: false,
+    isSearchingByTypes: false,
     isLoaded: false,
     pokemonsListDetailed: {},
     currentPage: 1,
@@ -39,7 +40,8 @@ export default function (state = initialState, action) {
             };
             break;
         case FIND_POKEMON_BY_NAME:
-            const pokemons = state.pokemonsList.filter( item => {
+            const searchList = state.pokemonsList;
+            const pokemons = searchList.filter( item => {
                 return item.data.name.indexOf(action.payload) !== -1;
             });
 
@@ -56,6 +58,28 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 currentPage: action.payload
+            };
+        case FIND_POKEMON_BY_TYPES:
+            const typesList = action.payload;
+
+            const pokemonsTyped = state.pokemonsList.filter( item => {
+                let hasType = false;
+                item.data.types.map( typeObj => {
+                    if( typesList.indexOf(typeObj.type.name) !== -1 ) {
+                        hasType = true;
+                    }
+                });
+
+                return hasType;
+            });
+
+            const isSearchingByTypes = typesList.length > 0;
+
+            return {
+                ...state,
+                searchList: pokemonsTyped,
+                isSearchingByTypes,
+                currentPage: 1
             };
         case FETCH_POKEMON_SUCCEEDED:
             const pokemonsListDetailed = state.pokemonsListDetailed;
