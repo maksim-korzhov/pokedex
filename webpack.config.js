@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: process.env.NODE_ENV === 'production' ? '/dist/' : '/',
+    publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
     filename: '[name].bundle.js'
   },
   resolve: {
