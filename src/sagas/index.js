@@ -11,19 +11,12 @@ import {
 } from "../actions/types";
 
 const ROOT_URL = `https://pokeapi.co/api/v2`;
+const limit = 3;
 
 /*
     get pokemon by id
     @returns an
 */
-/*export function * fetchPokemonByIdAsync(action) {
-    try {
-        const result = yield call(axios.get, `${ROOT_URL}/pokemon/${action.payload}/`);
-        yield put({ type: FETCH_POKEMON_SUCCEEDED, payload: result.data });
-    } catch (error) {
-        yield put({ type: FETCH_POKEMON_FAILED, payload: error });
-    }
-}*/
 export function * fetchPokemonByIdAsync(id) {
     try {
         const result = yield call(axios.get, `${ROOT_URL}/pokemon/${id}/`);
@@ -40,33 +33,15 @@ function * watchFetchPokemonById() {
 }
 
 
-/*export function * fetchPokemonByIdAsync(action) {
-    try {
-        yield action.payload.results.map( function* (pokemonData) {
-            // Get pokemon id
-            const id = pokemonData.url.match(/pokemon\/(\d+)\//)[1];
-            const result = yield call(axios.get, `${ROOT_URL}/pokemon/${id}/`);
-            yield put({ type: FETCH_POKEMON_SUCCEEDED, payload: result.data });
-        });
-    } catch (error) {
-        yield put({ type: FETCH_POKEMON_FAILED, payload: error });
-    }
-}
-
-// pokemons watcher
-function * watchFetchPokemonById() {
-    yield takeEvery(FETCH_POKEMONS_SUCCEEDED, fetchPokemonByIdAsync);
-}
-*/
-
 /*
     get list of pokemons
     @returns an array of objects: { url, name }
 */
 export function * fetchPokemonsAsync() {
     try {
-        const request = yield call(axios.get, `${ROOT_URL}/pokemon/`, { params: { limit: 3 } });
-        //yield put({ type: FETCH_POKEMONS_SUCCEEDED, payload: request.data });
+        const request = yield call(axios.get, `${ROOT_URL}/pokemon/`, { params: { limit: 10 } });
+
+        console.log(request.data);
 
         const allPokemons = [];
         yield* request.data.results.map( function* (pokemonData) {
@@ -81,6 +56,7 @@ export function * fetchPokemonsAsync() {
             };
             allPokemons.push(item);
         });
+
         yield put({ type: FETCH_POKEMONS_SUCCEEDED, payload: allPokemons });
     } catch (error) {
         yield put({ type: FETCH_POKEMONS_FAILED, payload: error });

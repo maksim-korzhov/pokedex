@@ -7,8 +7,55 @@ import {fetchPokemons} from "../actions";
 import Pagination from "../components/Pagination";
 
 class PokemonsList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+            currentPage: 1,
+            totalItems: 1,
+            itemsPerPage: 3,
+            itemsOnPage: []
+        };
+    }
+
     componentDidMount() {
         this.props.fetchPokemons();
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if(nextProps.pokemonsList) {
+            this.setState({
+                isLoading: false,
+                totalItems: nextProps.pokemonsList.length,
+                itemsOnPage: this._setItemsOnPage(nextProps.pokemonsList)
+            });
+
+
+        }
+    }
+
+    _setItemsOnPage( list, currentPage = this.state.currentPage ) {
+        const { itemsPerPage } = this.state;
+        let offsetIndexStart = (currentPage - 1) * itemsPerPage;
+        let offsetIndexEnd = currentPage * itemsPerPage;
+
+        const itemsOnPage = list.slice(offsetIndexStart, offsetIndexEnd);
+
+        return itemsOnPage;
+    }
+
+    _setActivePage(pageNumber) {
+        this.setState({
+            currentPage: pageNumber
+        });
+    }
+
+    _goToPage(pageNumber) {
+        this._setActivePage(pageNumber);
+
+        this.setState({
+            itemsOnPage: this._setItemsOnPage(this.props.pokemonsList, pageNumber)
+        });
     }
 
     _renderRows(items) {
@@ -56,11 +103,10 @@ class PokemonsList extends Component {
 
     render() {
         //const ModalForm = ModalWrapper(AddDepartment);
+
         return (
             <main className="col-sm-12">
                 <h1>Pokemons</h1>
-
-                <Pagination />
 
                 <div className="table-responsive table-bordered">
                     <table className="table table-striped">
@@ -74,19 +120,31 @@ class PokemonsList extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                            {this._renderRows(this.props.pokemonsList)}
+                            {/*this._renderRows(this.props.pokemonsList)*/}
+                            {this._renderRows(this.state.itemsOnPage)}
                         </tbody>
                     </table>
                 </div>
 
-                <Pagination />
+                <Pagination
+                    total={this.state.totalItems}
+                    perPage={this.state.itemsPerPage}
+                    currentPage={this.state.currentPage}
+                    onPageClickHandler={this._goToPage.bind(this)}
+                />
+
+                <div className={`preloader ${ this.state.isLoading ? "" : "hide"}`}>
+                    <div className="preloaderText">Loading...</div>
+                </div>
             </main>
         );
     }
 }
 
 function mapStateToProps({pokemons: {pokemonsList}}) {
-    return {pokemonsList};
+    return {
+        pokemonsList
+    };
 }
 
 function mapDispatchToProps(dispatch) {
