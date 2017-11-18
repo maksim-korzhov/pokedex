@@ -1,12 +1,13 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin') // для работы с html
-var ExtractTextPlugin = require('extract-text-webpack-plugin') // для отделения css в отдельный файл
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // для работы с html
+const ExtractTextPlugin = require('extract-text-webpack-plugin'); // для отделения css в отдельный файл
+const path = require("path");
 
 module.exports = {
   entry: {
     index: './src/index.jsx'
   },
   output: {
-    path: '/dist/',
+    path: path.join(__dirname, "dist"),
     publicPath: '/',
     filename: '[name].bundle.js'
   },

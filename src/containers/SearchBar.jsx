@@ -12,7 +12,6 @@ class SearchBar extends Component {
     }
 
     _handleInputChange(e) {
-//        this.props.findPokemonByName(e.target.value);
         this.props.searchHandle(e.target.value);
 
 

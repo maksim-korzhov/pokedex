@@ -23,6 +23,7 @@ export default function (state = initialState, action) {
                 isSearching: false,
                 isLoaded: true
             };
+            break;
         case FIND_POKEMON_BY_NAME:
             const pokemons = state.pokemonsList.filter( item => {
                 return item.data.name.indexOf(action.payload) !== -1;
@@ -36,6 +37,7 @@ export default function (state = initialState, action) {
                 isSearching,
                 currentPage: 1
             };
+            break;
         case FETCH_PAGE:
             return {
                 ...state,

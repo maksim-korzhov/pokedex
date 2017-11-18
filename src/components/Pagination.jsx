@@ -47,6 +47,12 @@ class Pagination extends Component {
 
     render() {
         const { total, perPage } = this.props;
+
+        // If there are no items, hide pagination
+        if(total === 0) {
+            return false;
+        }
+
         const currentPage = this.state.currentPage;
 
         const totalPages = Math.ceil(parseInt(total) / parseInt(perPage));

@@ -25,7 +25,6 @@ class PokemonsList extends Component {
 
     componentWillReceiveProps (nextProps) {
         if(nextProps.pokemonsList) {
-            console.log(nextProps.currentPage);
             this.setState({
                 isLoading: false,
                 totalItems: nextProps.pokemonsList.length,
@@ -44,20 +43,6 @@ class PokemonsList extends Component {
 
         return itemsOnPage;
     }
-
-    /*_setActivePage(pageNumber) {
-        this.setState({
-            currentPage: pageNumber
-        });
-    }
-
-    _goToPage(pageNumber) {
-        this._setActivePage(pageNumber);
-
-        this.setState({
-            itemsOnPage: this._setItemsOnPage(this.props.pokemonsList, pageNumber)
-        });
-    }*/
 
     _renderRows(items) {
         if (items.length === 0) {
@@ -145,7 +130,6 @@ class PokemonsList extends Component {
                     total={this.state.totalItems}
                     perPage={this.state.itemsPerPage}
                     currentPage={this.state.currentPage}
-                    //onPageClickHandler={this._goToPage.bind(this)}
                     onPageClickHandler={this.props.fetchByPage}
                 />
 
