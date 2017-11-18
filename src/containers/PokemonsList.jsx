@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import { fetchPokemons, findPokemonByName, fetchByPage } from "../actions";
+import { fetchPokemons, findPokemonByName, fetchByPage, fetchAllTypes } from "../actions";
 
 import Pagination from "../components/Pagination";
 import SearchBar from "./SearchBar";
@@ -103,6 +103,8 @@ class PokemonsList extends Component {
     render() {
         //const ModalForm = ModalWrapper(AddDepartment);
 
+        console.log(this.props.typesList);
+
         return (
             <main className="col-sm-12">
                 <h1>Pokemons</h1>
@@ -146,12 +148,13 @@ function mapStateToProps({pokemons}) {
     return {
         pokemonsList,
         isLoaded: pokemons.isLoaded,
-        currentPage: pokemons.currentPage
+        currentPage: pokemons.currentPage,
+        typesList: pokemons.typesList
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchPokemons, findPokemonByName, fetchByPage }, dispatch);
+    return bindActionCreators({ fetchPokemons, findPokemonByName, fetchByPage, fetchAllTypes }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonsList);
