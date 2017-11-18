@@ -4,8 +4,8 @@
   "description": "Webpack project starter",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server",
-    "prod": "npm run clean && webpack -p",
+    "dev": "NODE_ENV=development webpack-dev-server",
+    "prod": "npm run clean && NODE_ENV=production webpack -p",
     "clean": "rimraf ./dist/*",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
@@ -41,7 +41,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
     "axios": "^0.17.0",

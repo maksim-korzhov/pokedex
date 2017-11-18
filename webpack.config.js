@@ -1,6 +1,6 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // для работы с html
-const ExtractTextPlugin = require('extract-text-webpack-plugin'); // для отделения css в отдельный файл
-const path = require("path");
+var HtmlWebpackPlugin = require('html-webpack-plugin') // для работы с html
+var ExtractTextPlugin = require('extract-text-webpack-plugin') // для отделения css в отдельный файл
+var path = require('path');
 
 module.exports = {
   entry: {
@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: '/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/dist/' : '/',
     filename: '[name].bundle.js'
   },
   resolve: {
@@ -35,7 +35,7 @@ module.exports = {
   devServer: {
     contentBase: '/dist/',
     compress: true, // gzip all files
-    host: '0.0.0.0',
+    host: '159.203.117.100',
     port: 9090,
     stats: 'errors-only', // не показывать весь лог, только ошибки,
     open: true, // Всегда открывать в новом окне,
