@@ -105,8 +105,6 @@ class PokemonsList extends Component {
     }
 
     render() {
-        //const ModalForm = ModalWrapper(AddDepartment);
-
         return (
             <main className="col-sm-12">
                 <h1>Pokemons</h1>
