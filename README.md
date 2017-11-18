@@ -12,4 +12,4 @@
 
 
 Демо
-<a href="https://maksim-korzhov.github.io/pokedex/dist/index.html">Pokedex</a>
+<a target="_blank" href="https://maksim-korzhov.github.io/pokedex/dist/index.html">Pokedex</a>
